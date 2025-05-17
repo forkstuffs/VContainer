@@ -230,8 +230,14 @@ namespace VContainer.Unity
         {
             var childGameObject = new GameObject(childScopeName ?? "LifetimeScope (Child)");
             childGameObject.SetActive(false);
-            childGameObject.transform.SetParent(transform, false);
-
+            if (IsRoot)
+            {
+                DontDestroyOnLoad(childGameObject);
+            }
+            else
+            {
+                childGameObject.transform.SetParent(transform, false);
+            }
             var child = childGameObject.AddComponent<TScope>();
             if (installer != null)
             {
